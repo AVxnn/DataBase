@@ -7,6 +7,7 @@ let state = {
     middleMoneyWeek: 0,
     value: 0,
     check: true,
+    date: [],
     state: []
 }
 
@@ -14,7 +15,7 @@ window.onload = () => {
     if (localStorage.getItem('state') !== null) {
         state = JSON.parse(localStorage.getItem('state'));
         for (let i = 1; i < state.state.length; i++) {
-            addItem(state.state[i][0], state.state[i][1], i)
+            addItem(state.state[i][0], state.state[i][1], i, state.date[i])
             state.value = i
         }
         document.querySelector('.allMoney'). innerHTML = 'Всего: ' + state.allMoney + ' руб';
@@ -51,15 +52,14 @@ inputBtn.addEventListener('click', function() {
     console.log(state.allMoney)
     inputMoney.value = '';
     document.querySelector('.allMoney'). innerHTML = 'Всего: ' + state.allMoney + ' руб';
-    console.log(state)
-    console.log(JSON.stringify(state))
 })
 
-function addItem(text, deadline, index) {
+function addItem(text, deadline, index, datte) {
     let date = new Date();
     let datee = date.getDate() + '.' + (Number(date.getMonth()) + 1);
-    list.insertAdjacentHTML('beforeend', '<li class="list-item-' + index + ' iteml" id="item">Дата: ' + datee + ' __ Цена: ' + text + ' руб __ Срок: ' + deadline + '</li>');
+    list.insertAdjacentHTML('beforeend', '<li class="list-item-' + index + ' iteml" id="item">Дата: ' + datte + ' __ Цена: ' + text + ' руб __ Срок: ' + deadline + '</li>');
+    state.date[state.value] = datee;
     localStorage.setItem('state', JSON.stringify(state))
-    console.log(state.state)
+    console.log(state.date)
 }
 
